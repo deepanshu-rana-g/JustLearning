@@ -33,6 +33,21 @@ function handler(event) {
     }
 })
 
+document.addEventListener("touchend",()=>{
+    if (!start) {
+        $(".btn").touchend(handler);
+function handler(event) {
+    let userChosenColour = event.target.id;//THIS NOT WORK HERE AND I FOUND AOUT THAT .TARGET METHOD WORKS WELL
+    userClickedPattern.push(userChosenColour);
+    // console.log(userClickedPattern);
+    playSound(userChosenColour);
+    animatePress(userChosenColour);
+    checkAnswer(userClickedPattern.length - 1);
+}
+        nextSequence();
+        start = true;
+    }
+})
 
 
 
