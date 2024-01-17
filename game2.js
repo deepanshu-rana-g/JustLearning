@@ -1,4 +1,4 @@
-
+//THIS IS THE FINALISED GAME JS CODE, AND I LEARNED A LOT OF NEW CONCEPTS WHILE WORKING ON IT
 console.log("jai shree ram");
 let buttonColours = ["red", "blue", "green", "yellow"];
 let userClickedPattern = [];

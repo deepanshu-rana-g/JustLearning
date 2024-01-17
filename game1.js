@@ -1,4 +1,4 @@
-
+//THIS IS THE CODE I  WRITE WHILE MAKING THIS GAME FOR THE FIRST TIME
 console.log("jai shree ram!");
 
 
