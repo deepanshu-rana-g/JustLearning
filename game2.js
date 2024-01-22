@@ -5,7 +5,7 @@ let userClickedPattern = [];
 
 let level = 0;
 let start = false;
-
+let MaximumScore = 0;
 let gamePattern = [];
 
 
@@ -17,33 +17,33 @@ let gamePattern = [];
 //     }, 100);
 // }
 //better way of doing calling event listener for once 
-document.addEventListener("keyup",()=>{
+document.addEventListener("keyup", () => {
     if (!start) {
         $(".btn").click(handler);
-function handler(event) {
-    let userChosenColour = event.target.id;//THIS NOT WORK HERE AND I FOUND AOUT THAT .TARGET METHOD WORKS WELL
-    userClickedPattern.push(userChosenColour);
-    // console.log(userClickedPattern);
-    playSound(userChosenColour);
-    animatePress(userChosenColour);
-    checkAnswer(userClickedPattern.length - 1);
-}
+        function handler(event) {
+            let userChosenColour = event.target.id;//THIS NOT WORK HERE AND I FOUND AOUT THAT .TARGET METHOD WORKS WELL
+            userClickedPattern.push(userChosenColour);
+            // console.log(userClickedPattern);
+            playSound(userChosenColour);
+            animatePress(userChosenColour);
+            checkAnswer(userClickedPattern.length - 1);
+        }
         nextSequence();
         start = true;
     }
 })
 
-document.addEventListener("touchend",()=>{
+document.addEventListener("touchend", () => {
     if (!start) {
         $(".btn").touchend(handler);
-function handler(event) {
-    let userChosenColour = event.target.id;//THIS NOT WORK HERE AND I FOUND AOUT THAT .TARGET METHOD WORKS WELL
-    userClickedPattern.push(userChosenColour);
-    // console.log(userClickedPattern);
-    playSound(userChosenColour);
-    animatePress(userChosenColour);
-    checkAnswer(userClickedPattern.length - 1);
-}
+        function handler(event) {
+            let userChosenColour = event.target.id;//THIS NOT WORK HERE AND I FOUND AOUT THAT .TARGET METHOD WORKS WELL
+            userClickedPattern.push(userChosenColour);
+            // console.log(userClickedPattern);
+            playSound(userChosenColour);
+            animatePress(userChosenColour);
+            checkAnswer(userClickedPattern.length - 1);
+        }
         nextSequence();
         start = true;
     }
@@ -51,7 +51,7 @@ function handler(event) {
 
 
 
-        
+
 
 
 
@@ -62,7 +62,7 @@ function checkAnswer(currentLevel) {
             //WAHT IF THE PLAYER DID NOT GO THROUGH THE PATTERN 
             setTimeout(() => {
                 nextSequence();
-                
+
             }, 1000);
         }
     }
@@ -81,16 +81,16 @@ function checkAnswer(currentLevel) {
         //FOR CALLING A EVENT LISTNER JUST ONCE 
         $(document).one('keyup', () => {
             startOver();  // startOver will only be called Once
-          });
+        });
 
         // let MaxLevel = level-1;
         // localStorage.setItem("Maximum Level" , MaxLevel);
         // $("h3").text("Maximum Score - " + localStorage.getItem("Maximum Level"));
-        
 
-       
-        
-       
+
+
+
+
     };
 }
 
@@ -109,8 +109,16 @@ function nextSequence() {
 
     level++;
     $("#level-title").text("level " + level);
-   
-    // MaximumScore(level);
+
+    if (level > MaximumScore) {
+        MaximumScore = level;
+        localStorage.setItem("MaximumScore", MaximumScore);
+    }
+
+
+
+
+
 
     let randomNumber = Math.floor((Math.random() * 4));
     let randomChosenColour = buttonColours[randomNumber];
@@ -136,4 +144,4 @@ function playSound(name) {
     sound.play();
 
 }
-
+$("#Max-score").text("Highest Score: " + localStorage.getItem("MaximumScore"));
