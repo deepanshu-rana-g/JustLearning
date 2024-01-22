@@ -8,15 +8,26 @@ let start = false;
 let MaximumScore = 0;
 let gamePattern = [];
 
+function nextSequence() {
+    userClickedPattern = [];
 
-// document.addEventListener("keyup", callNextSequence);
-// function callNextSequence() {
-//     nextSequence();
-//     setTimeout(() => {
-//         document.removeEventListener("keyup", callNextSequence);
-//     }, 100);
-// }
+    level++;
+    $("#level-title").text("level " + level);
+
+    let randomNumber = Math.floor((Math.random() * 4));
+    let randomChosenColour = buttonColours[randomNumber];
+    gamePattern.push(randomChosenColour);
+    animatePress(randomChosenColour);
+    playSound(randomChosenColour);
+}
+
+
 //better way of doing calling event listener for once 
+if (MaximumScore == 0) {
+    $("#Max-score").text(("Highest Score: 0"));
+}
+
+
 document.addEventListener("keyup", () => {
     if (!start) {
         $(".btn").click(handler);
@@ -50,11 +61,6 @@ document.addEventListener("touchend", () => {
 })
 
 
-
-
-
-
-
 function checkAnswer(currentLevel) {
     if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
         // console.log("success");
@@ -67,29 +73,29 @@ function checkAnswer(currentLevel) {
         }
     }
     else {
-        // console.log("wrong") 
-        let wrong = "wrong"
+        let wrong = "wrong";
         playSound(wrong);
         //CALLING AN EVENT LISTNER ONCE
         $("body").addClass("game-over");
         setTimeout(() => {
             $("body").removeClass("game-over");
         }, 100);
-        $("h1").text("Game Over , Refresh to  Restart");
-        // console.log(level);
-
+        $("h1").text("Game Over , press any key to restart");
         //FOR CALLING A EVENT LISTNER JUST ONCE 
         $(document).one('keyup', () => {
             startOver();  // startOver will only be called Once
         });
+        if (level > MaximumScore) {
+            MaximumScore = level - 1;
+            localStorage.setItem("MaximumScore", MaximumScore);
 
-        // let MaxLevel = level-1;
-        // localStorage.setItem("Maximum Level" , MaxLevel);
-        // $("h3").text("Maximum Score - " + localStorage.getItem("Maximum Level"));
-
-
-
-
+            $("#Max-score").text("Highest Score: " + localStorage.getItem("MaximumScore"));
+            let highestScore = localStorage.getItem("MaximumScore");
+            if (MaximumScore > highestScore) {
+                MaximumScore = highestScore;
+                $("#Max-score").text("Highest Score: " + localStorage.getItem("MaximumScore"));
+            }
+        };
 
     };
 }
@@ -102,30 +108,6 @@ function startOver() { //RESETTING ALL THE PARAMETRS
 }
 
 
-
-
-function nextSequence() {
-    userClickedPattern = [];
-
-    level++;
-    $("#level-title").text("level " + level);
-
-    if (level > MaximumScore) {
-        MaximumScore = level;
-        localStorage.setItem("MaximumScore", MaximumScore);
-    }
-
-
-
-
-
-
-    let randomNumber = Math.floor((Math.random() * 4));
-    let randomChosenColour = buttonColours[randomNumber];
-    gamePattern.push(randomChosenColour);
-    animatePress(randomChosenColour);
-    playSound(randomChosenColour);
-}
 
 
 
@@ -144,4 +126,3 @@ function playSound(name) {
     sound.play();
 
 }
-$("#Max-score").text("Highest Score: " + localStorage.getItem("MaximumScore"));
